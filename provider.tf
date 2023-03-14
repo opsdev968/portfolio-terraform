@@ -1,7 +1,6 @@
 provider "aws" {
     region = "eu-west-2"   #"${var.AWS_REGION}"
-    access_key = "AKIAZMC2XWDGPNMSLDH7"
-    secret_key = "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"
+    ##access_key = + secret_key from aws access key (other type)  in env variables
     	default_tags  {
 		tags = {
 		name =  "${var.OWNERTAG}"
@@ -12,12 +11,49 @@ provider "aws" {
 	}
 }
 
+provider "kubectl" {
+  host                   = module.eks.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+  load_config_file       = false
+
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+    command     = "aws"
+  }
+}
+
+terraform {
+  required_providers {
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = ">= 1.14.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.6.0"
+    }
+  }
+  required_version = "~> 1.0"
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = module.eks.cluster_endpoint
+    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+    exec {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name ]
+      command     = "aws"
+    }
+  }
+}
+
+
 terraform {
  backend "s3" {
    bucket         = "olgag-bucket-1"
    key            = "state/terraform.tfstate"
    region = "eu-west-2"   #"${var.AWS_REGION}"
-   access_key = "AKIAZMC2XWDGPNMSLDH7"
-   secret_key = "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"  
  }
 }
