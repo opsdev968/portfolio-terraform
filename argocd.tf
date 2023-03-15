@@ -1,4 +1,4 @@
-resource "helm_release" "argo-cd" {
+resource "helm_release" "argocd" {
   name  = "argocd"
   repository       = var.helm_repository
   chart            = "argo-cd"
@@ -8,18 +8,21 @@ resource "helm_release" "argo-cd" {
   # values = [
   #   "${file("/home/adiv/Documents/finalproject/infrastructure/values.yaml")}"
   # ]
-  #  set {
-  #   name  = "server.insecure"
-  #   value = "true"
-  # }
-  # set {
-  #   name  = "server.ingress.enabled"
-  #   value = "true"
-  # }
-  # set {
-  #   name  = "ingress.ingressClassName"
-  #   value = "nginx"
-  # }
+
+  set {
+    name  = "configs.params.server\\.insecure"
+    value = "true"
+  }
+  set {
+    name  = "server.ingress.enabled"
+    value = "true"
+  }
+   set {
+    name  = "server.ingress.ingressClassName"
+    value = "nginx"
+  }
+
+
   #  set {
   #   name  = "ingress.enabled"
   #   value = "true"
@@ -27,7 +30,7 @@ resource "helm_release" "argo-cd" {
 
   set {
     name  = "argocdServerAdminPassword"
-    value = "$2y$10$pZMBbXHhWbf/iK3wKJxsfef5mYSTCllXP3XOr8JyfLuUneQyvfGlu"
+    value = "123456"
   }      
 
   # set {
@@ -43,12 +46,3 @@ resource "helm_release" "argo-cd" {
   #   value = "argoadi.duckdns.org"
   # }
 }
-
-
-
-
-
-
-
-
-
