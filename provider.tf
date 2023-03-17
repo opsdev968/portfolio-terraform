@@ -43,14 +43,14 @@ terraform {
   required_version = "~> 1.0"
 }
 
-provider "argocd" {
-  #source  = "oboukili/argocd"
-  #version = ">= 1.2"
-  server_addr = "argocd-server.argocd.svc:80" #"argoolga.duckdns.org" #"${helm_release.argocd.status.ingress[0].host}"
-  username    = "admin"
-  password    = "0BPzaLWIuMU4tsXE"
-  grpc_web    = true
-}
+# provider "argocd" {
+#   #source  = "oboukili/argocd"
+#   #version = ">= 1.2"
+#   server_addr = "argocd-server.argocd.svc:80" #"argoolga.duckdns.org" #"${helm_release.argocd.status.ingress[0].host}"
+#   username    = "admin"
+#   password    = "mustbehere"
+#   grpc_web    = true
+# }
 
 provider "helm" {
   kubernetes {
