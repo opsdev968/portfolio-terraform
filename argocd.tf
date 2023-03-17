@@ -22,11 +22,10 @@ resource "helm_release" "argocd" {
     value = "nginx"
   }
 
-
-  #  set {
-  #   name  = "ingress.enabled"
-  #   value = "true"
-  # }
+  set {
+    name  = "server.ingress.hosts.host"
+    value = "argoolga.duckdns.org"
+  }
 
   set {
     name  = "argocdServerAdminPassword"
@@ -37,12 +36,6 @@ resource "helm_release" "argocd" {
   #   name  = "server.service.type"
   #   value = "ClusterIP"
   # }
-  # set {
-  #   name  = "server.ingress.ingressClassName"
-  #   value = "nginx"
-  # }
-  # set {
-  #   name  = "server.ingress.hosts"
-  #   value = "argoadi.duckdns.org"
-  # }
+  
+  
 }
