@@ -25,6 +25,12 @@ provider "kubectl" {
 
 terraform {
   required_providers {
+    ## https://github.com/rallyware/terraform-argocd-apps/blob/main/examples/basic/versions.tf
+     argocd = {
+      source  = "oboukili/argocd"
+      version = ">= 1.2"
+     
+    }
     kubectl = {
       source  = "gavinbunney/kubectl"
       version = ">= 1.14.0"
@@ -35,6 +41,15 @@ terraform {
     }
   }
   required_version = "~> 1.0"
+}
+
+provider "argocd" {
+  #source  = "oboukili/argocd"
+  #version = ">= 1.2"
+  server_addr = "argocd-server.argocd.svc:80" #"argoolga.duckdns.org" #"${helm_release.argocd.status.ingress[0].host}"
+  username    = "admin"
+  password    = "0BPzaLWIuMU4tsXE"
+  grpc_web    = true
 }
 
 provider "helm" {
@@ -49,6 +64,23 @@ provider "helm" {
   }
 }
 
+
+#provider "argocd" {
+  
+  # api_version = "client.authentication.k8s.io/v1beta1"
+  #server      =  "argocd.local:443" //"argoolga.duckdns.org"//"https://${helm_release.argocd.status.ingress[0].host}"
+  #token       = var.argocd_token  ## auth_token  = "1234..."
+
+#  kubernetes {
+#     host                   = module.eks.cluster_endpoint
+#     cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+#     exec {
+#       api_version = "client.authentication.k8s.io/v1beta1"
+#       args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name ]
+#       command     = "aws"
+#     }
+#   }
+#}
 
 terraform {
  backend "s3" {
